@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "imgprocessing.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,8 +34,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    void setImage(QImage &);
+    ImageProcessingCore imgEngine;
 
-    void waveMatrix(double **&, int, int, double&, double&);
+    void setImage(QImage &);
 };
 #endif // MAINWINDOW_H
