@@ -1,10 +1,21 @@
 #include "imgprocessing.h"
 
+#include <iostream>
+
 ImageProcessingCore::ImageProcessingCore()
 {}
 
-void ImageProcessingCore::RgbToGray(QImage &image)
+double** ImageProcessingCore::RgbToGray(QImage &image)
 {
+    const int w = image.width();
+    const int h = image.height();
+
+    double **matrix = new double*[w];
+
+    for(int i = 0; i < image.width(); i++)
+        matrix[i] = new double[h];
+
+
     for(int x = 0; x < image.width(); x++)
     {
         for(int y = 0; y < image.height(); y++)
@@ -12,29 +23,44 @@ void ImageProcessingCore::RgbToGray(QImage &image)
             QColor rgb = image.pixelColor(x, y);
             int gray = (rgb.red() + rgb.blue() + rgb.green()) / 3;
 
+            matrix[x][y] = gray;
+
             image.setPixel(x, y, QColor(gray, gray, gray).rgb());
         }
     }
+
+    return matrix;
 }
 
-void ImageProcessingCore::RgbToBinary(QImage &image)
+double** ImageProcessingCore::RgbToBinary(QImage &image)
 {
+    const int w = image.width();
+    const int h = image.height();
 
-    for(int x = 0; x < image.width(); x++)
+    double **matrix = new double*[w];
+
+    for(int i = 0; i < w; i++)
+        matrix[i] = new double[h];
+
+    for(int x = 0; x < w; x++)
     {
-        for(int y = 0; y < image.height(); y++)
+        for(int y = 0; y < h; y++)
         {
             QColor rgb = image.pixelColor(x, y);
             int gray = (rgb.red() + rgb.blue() + rgb.green()) / 3;
 
             int color = gray > 128 ? 255 : 0;
 
+            matrix[x][y] = color == 0 ? 0 : 1;
+
             image.setPixel(x, y, QColor(color, color, color).rgb());
         }
     }
+
+    return matrix;
 }
 
-void ImageProcessingCore::RgbViaWaves(QImage &image)
+double** ImageProcessingCore::RgbViaWaves(QImage &image)
 {
     const int w = image.width();
     const int h = image.height();
@@ -62,18 +88,12 @@ void ImageProcessingCore::RgbViaWaves(QImage &image)
         for(int j = 0; j < h; j++)
         {
             double temp = matrix[i][j];
-            if (temp >= 0.1)
-            {
-                ;
-            }
             int color = 255 - (int)((temp * 255) / relativeValue);
             image.setPixel(i, j, QColor(color, color, color).rgb());
         }
     }
 
-    for (int i = 0; i < w; i++)  // clear ram
-        delete[] matrix[i];
-    delete[] matrix;
+    return matrix;
 }
 
 void ImageProcessingCore::calculateWaves(double **&matrix, int w, int h, double &max, double &min)
@@ -109,6 +129,8 @@ void ImageProcessingCore::calculateWaves(double **&matrix, int w, int h, double 
                             matrix[i+x][j+y] += increment;
 
                             double value = matrix[i+x][j+y];
+
+
                             if (value > max)
                                 max = value;
                             else if (value < min)
@@ -117,6 +139,7 @@ void ImageProcessingCore::calculateWaves(double **&matrix, int w, int h, double 
                     }
                 }
             }
+
         }
     }
 }

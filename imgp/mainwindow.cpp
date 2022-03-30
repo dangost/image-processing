@@ -9,7 +9,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , imgEngine()
+    , imgCore()
 {
     ui->setupUi(this);
 }
@@ -22,6 +22,18 @@ void MainWindow::actionOpen()
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::fillTable(double **& matrix, int w, int h)
+{
+    this->ui->outputTableWidget->setRowCount(w);
+    this->ui->outputTableWidget->setColumnCount(h);
+
+    for (int i = 0; i < w; i++)
+        for (int j = 0; j < h; j++)
+        {
+            this->ui->outputTableWidget->setItem(i, j, new QTableWidgetItem(QString::number(matrix[i][j])));
+        }
 }
 
 void MainWindow::setImage(QImage &image)
@@ -39,7 +51,8 @@ void MainWindow::on_ToGrayButton_clicked()
 {
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
-    this->imgEngine.RgbToGray(image);
+    double **matrix = this->imgCore.RgbToGray(image);
+    this->fillTable(matrix, image.width(), image.height());
     this->setImage(image);
 }
 
@@ -50,7 +63,7 @@ void MainWindow::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(
                 this, tr("Open Image"),
                 homeDirectory,
-                tr("Image Files (*.png *.jpg *.bmp)")
+                tr("Image Files (*.png *.jpg *.bmp *.jpeg)")
                 );
 
     QPixmap openedImage(fileName);
@@ -82,10 +95,10 @@ void MainWindow::on_toBinaryButton_clicked()
 {
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
-    this->imgEngine.RgbToBinary(image);
+    double** matrix = this->imgCore.RgbToBinary(image);
+    this->fillTable(matrix, image.width(), image.height());
 
     this->setImage(image);
-
 }
 
 
@@ -93,7 +106,8 @@ void MainWindow::on_toWavesButton_clicked()
 {
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
-    this->imgEngine.RgbViaWaves(image);
+    double** matrix = this->imgCore.RgbViaWaves(image);
+    this->fillTable(matrix, image.width(), image.height());
 
     this->setImage(image);
 }

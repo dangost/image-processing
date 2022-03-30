@@ -9,11 +9,11 @@ class ImageProcessingCore
 public:
     ImageProcessingCore();
 
-    void RgbToGray(QImage &);
+    double** RgbToGray(QImage &);
 
-    void RgbToBinary(QImage &);
+    double** RgbToBinary(QImage &);
 
-    void RgbViaWaves(QImage &);
+    double** RgbViaWaves(QImage &);
 
 private:
     void calculateWaves(double **&, int, int, double&, double&);

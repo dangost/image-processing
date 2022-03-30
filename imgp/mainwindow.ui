@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1172</width>
+    <height>590</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,9 +30,9 @@
    <widget class="QLabel" name="imageLabel">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>130</x>
       <y>10</y>
-      <width>561</width>
+      <width>501</width>
       <height>511</height>
      </rect>
     </property>
@@ -66,13 +66,23 @@
      <string>Waves</string>
     </property>
    </widget>
+   <widget class="QTableWidget" name="outputTableWidget">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>10</y>
+      <width>481</width>
+      <height>351</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1172</width>
      <height>21</height>
     </rect>
    </property>

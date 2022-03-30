@@ -34,8 +34,10 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    ImageProcessingCore imgEngine;
+    ImageProcessingCore imgCore;
 
     void setImage(QImage &);
+
+    void fillTable(double **& matrix, int w, int h);
 };
 #endif // MAINWINDOW_H
