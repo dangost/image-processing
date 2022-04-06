@@ -31,6 +31,12 @@ private slots:
 
     void on_toWavesButton_clicked();
 
+    void on_histogramButton_clicked();
+
+    void on_s8Button_clicked();
+
+    void on_globalBinaruButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -39,5 +45,8 @@ private:
     void setImage(QImage &);
 
     void fillTable(double **& matrix, int w, int h);
+
+    void drawA4Table(double **& matrix, int w, int h);
+    void drawA8Table(double **& matrix, int w, int h);
 };
 #endif // MAINWINDOW_H

@@ -3,7 +3,6 @@
 
 #include <QImage>
 
-
 class ImageProcessingCore
 {
 public:
@@ -14,6 +13,10 @@ public:
     double** RgbToBinary(QImage &);
 
     double** RgbViaWaves(QImage &);
+
+    double** S8Binarisation(QImage &);
+
+    double** GlobalBinarisation(QImage &, int);
 
 private:
     void calculateWaves(double **&, int, int, double&, double&);
