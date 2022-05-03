@@ -18,6 +18,13 @@ public:
 
     double** GlobalBinarisation(QImage &, int);
 
+    double** RedMatrix(QImage &);
+    double** GreenMatrix(QImage &);
+    double** BlueMatrix(QImage &);
+
+    double** MinMaxGrayImage(QImage &);
+
+
 private:
     void calculateWaves(double **&, int, int, double&, double&);
 };

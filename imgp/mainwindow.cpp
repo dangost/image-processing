@@ -254,3 +254,117 @@ void MainWindow::on_globalBinaruButton_clicked()
 
 }
 
+
+void MainWindow::on_redButton_clicked()
+{
+    this->lastColor = 1;
+    QImage image = this->ui->imageLabel->pixmap().toImage();
+
+    double **matrix = this->imgCore.RedMatrix(image);
+    this->fillTable(matrix, image.width(), image.height());
+
+    for (int i = 0; i < image.width(); i++)
+    {
+        delete[] matrix[i];
+    }
+
+    delete[] matrix;
+}
+
+
+void MainWindow::on_greenButton_clicked()
+{
+    this->lastColor = 2;
+    QImage image = this->ui->imageLabel->pixmap().toImage();
+
+    double **matrix = this->imgCore.GreenMatrix(image);
+    this->fillTable(matrix, image.width(), image.height());
+
+    for (int i = 0; i < image.width(); i++)
+    {
+        delete[] matrix[i];
+    }
+
+    delete[] matrix;
+}
+
+
+void MainWindow::on_blueButton_clicked()
+{
+    this->lastColor = 3;
+    QImage image = this->ui->imageLabel->pixmap().toImage();
+
+    double **matrix = this->imgCore.BlueMatrix(image);
+    this->fillTable(matrix, image.width(), image.height());
+
+    for (int i = 0; i < image.width(); i++)
+    {
+        delete[] matrix[i];
+    }
+
+    delete[] matrix;
+}
+
+void MainWindow::on_minMaxButton_clicked()
+{
+    QImage image = this->ui->imageLabel->pixmap().toImage();
+
+    double **matrix = this->imgCore.MinMaxGrayImage(image);
+    this->fillTable(matrix, image.width(), image.height());
+
+    this->setImage(image);
+
+    for (int i = 0; i < image.width(); i++)
+    {
+        delete[] matrix[i];
+    }
+
+    delete[] matrix;
+}
+
+
+void MainWindow::on_outputTableWidget_cellChanged(int row, int column)
+{
+    //this->ui->outputTableWidget->setItem(i, j, new QTableWidgetItem(QString::number(matrix[i][j])));
+    int value = this->ui->outputTableWidget->item(row, column)->text().toInt();
+    QImage image = this->ui->imageLabel->pixmap().toImage();
+    QColor color(image.pixelColor(row, column));
+    int red = color.red();
+    int blue = color.blue();
+    int green = color.green();
+
+    switch(this->lastColor){
+    case 1:
+        red = value;
+        break;
+    case 2:
+        green = value;
+        break;
+    case 3:
+        blue = value;
+        break;
+    }
+
+    image.setPixel(row,column, qRgb(red, green, blue));
+
+    this->setImage(image);
+
+
+}
+
+
+
+void MainWindow::on_globalSlider_sliderMoved(int position)
+{
+    this->ui->sliderValueLabel->setText(QString::number(this->ui->globalSlider->value()));
+}
+
+
+void MainWindow::on_actionSave_2_triggered()
+{
+    QString homeDirectory = qgetenv("HOME");
+    QString path = QFileDialog::getSaveFileName(this, tr("Choose folder to save"), homeDirectory);
+
+    this->ui->imageLabel->pixmap().toImage().save(path);
+}
+

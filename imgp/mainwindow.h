@@ -37,6 +37,20 @@ private slots:
 
     void on_globalBinaruButton_clicked();
 
+    void on_redButton_clicked();
+
+    void on_greenButton_clicked();
+
+    void on_blueButton_clicked();
+
+    void on_minMaxButton_clicked();
+
+    void on_outputTableWidget_cellChanged(int row, int column);
+
+    void on_globalSlider_sliderMoved(int position);
+
+    void on_actionSave_2_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -48,5 +62,7 @@ private:
 
     void drawA4Table(double **& matrix, int w, int h);
     void drawA8Table(double **& matrix, int w, int h);
+
+    int lastColor;
 };
 #endif // MAINWINDOW_H

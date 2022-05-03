@@ -222,3 +222,103 @@ double** ImageProcessingCore::GlobalBinarisation(QImage &image, int trashold)
 
     return matrix;
 }
+
+
+double** ImageProcessingCore::RedMatrix(QImage &image)
+{
+    const int w = image.width();
+    const int h = image.height();
+    double** matrix = new double*[w];
+    for (int i = 0; i < w; i++)
+        matrix[i] = new double[h];
+
+    for (int i = 0; i < w; i++)
+    {
+        for(int j = 0; j < h; j++)
+        {
+            matrix[i][j] = image.pixelColor(i, j).red();
+        }
+    }
+
+    return matrix;
+}
+
+
+double** ImageProcessingCore::GreenMatrix(QImage &image)
+{
+    const int w = image.width();
+    const int h = image.height();
+    double** matrix = new double*[w];
+    for (int i = 0; i < w; i++)
+        matrix[i] = new double[h];
+
+    for (int i = 0; i < w; i++)
+    {
+        for(int j = 0; j < h; j++)
+        {
+            matrix[i][j] = image.pixelColor(i, j).green();
+        }
+    }
+
+    return matrix;
+}
+double** ImageProcessingCore::BlueMatrix(QImage &image)
+{
+    const int w = image.width();
+    const int h = image.height();
+    double** matrix = new double*[w];
+    for (int i = 0; i < w; i++)
+        matrix[i] = new double[h];
+
+    for (int i = 0; i < w; i++)
+    {
+        for(int j = 0; j < h; j++)
+        {
+            matrix[i][j] = image.pixelColor(i, j).blue();
+        }
+    }
+
+    return matrix;
+}
+
+double** ImageProcessingCore::MinMaxGrayImage(QImage &image)
+{
+    const int w = image.width();
+    const int h = image.height();
+    double** matrix = new double*[w];
+    for (int i = 0; i < w; i++)
+        matrix[i] = new double[h];
+
+    for (int i = 0; i < w; i++)
+    {
+        for(int j = 0; j < h; j++)
+        {
+            int red = image.pixelColor(i, j).red();
+            int green = image.pixelColor(i, j).green();
+            int blue = image.pixelColor(i, j).blue();
+
+            int max = red;
+            int min = red;
+
+            if (green > max)
+                max = green;
+            else if (min > green)
+                min = green;
+
+            if (blue > max)
+                max = blue;
+            else if (min > blue)
+                min = blue;
+
+            int gray = round((min + max) / 2);
+            if (gray < 0)
+                gray = 0;
+            if (gray > 255)
+                gray = 255;
+            image.setPixel(i, j, qRgb(gray, gray, gray));
+            matrix[i][j] = gray;
+        }
+    }
+
+    return matrix;
+}
