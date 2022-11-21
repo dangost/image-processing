@@ -1,5 +1,6 @@
 #include "lab02core.h"
 #include <algorithm>
+#include <QDebug>
 
 Lab02Core::Lab02Core()
 {
@@ -7,10 +8,14 @@ Lab02Core::Lab02Core()
 
 int** Lab02Core::ZongSune(int** image, int w, int h)
 {
+    int steps = 0;
     while(true)
     {
+        steps ++;
         auto firstStep = this->firstStepZonge(image, w, h);
         auto secondStep = this->secondtepZonge(firstStep, w, h);
+        int q = firstStep[30][34];
+        qDebug() << q;
         for (int i = 0 ; i< h; i++)
             for(int j = 0; j < w; j++)
             {
@@ -180,6 +185,20 @@ int** Lab02Core::secondtepZonge(int** image, int w, int h)
                 (int)image[x+1][y], (int)image[x+1][y+1], (int)image[x][y+1],
                 (int)image[x-1][y+1], (int)image[x-1][y], (int)image[x-1][y-1]};
 
+            // First step
+            int b1 = 0;
+            for (int q = 1; q < 8; q++)
+            {
+                if (vector3x3[q] == 0 && vector3x3[q+1] == 1)
+                {
+                    b1++;
+                }
+            }
+
+            if (!(b1 >= 2 && b1 <= 6))
+            {
+                continue;
+            }
 
             int A = 0;
             for (int i = 1; i < 8; i++)
