@@ -2,11 +2,15 @@
 #define IMAGEPROCESSINGCORE_H
 
 #include <QImage>
+#include <QVector2D>
+#include <QTableWidget>
 
 class ImageProcessingCore
 {
 public:
     ImageProcessingCore();
+
+    double** MatrixOfSimilarity(QImage &);
 
     double** RgbToGray(QImage &);
 
@@ -24,9 +28,20 @@ public:
 
     double** MinMaxGrayImage(QImage &);
 
+    double** Filter(QImage &);
+
+    double** Unlocking(QImage &, int[]);
+
+    double** Erosion(QImage &, int[]);
+    double** Extenstion(QImage &, int[], double **&);
+
+
 
 private:
     void calculateWaves(double **&, int, int, double&, double&);
+
+
+    int* bubbleSort(int* &, int);
 };
 
 #endif // IMAGEPROCESSINGCORE_H

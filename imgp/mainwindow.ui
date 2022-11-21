@@ -66,39 +66,6 @@
      <string>Waves</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="outputTableWidget">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>10</y>
-      <width>481</width>
-      <height>351</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="histogramButton">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>370</y>
-      <width>111</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Show Histogram</string>
-    </property>
-   </widget>
-   <widget class="QTableWidget" name="a4TableWidget">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>420</y>
-      <width>241</width>
-      <height>251</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QTableWidget" name="a8TableWidget">
     <property name="geometry">
      <rect>
@@ -219,6 +186,58 @@
      <string>128</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="filterButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>570</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Filter</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="mastTableWidget">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>550</y>
+      <width>121</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="rowCount">
+     <number>0</number>
+    </property>
+    <property name="columnCount">
+     <number>0</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>630</y>
+      <width>71</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Unlocking</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="mainTableWidget">
+    <property name="geometry">
+     <rect>
+      <x>735</x>
+      <y>20</y>
+      <width>441</width>
+      <height>381</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -236,6 +255,8 @@
     <addaction name="actionOpen"/>
     <addaction name="actionExit"/>
     <addaction name="actionSave_2"/>
+    <addaction name="separator"/>
+    <addaction name="actionSecond_Semester"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -262,6 +283,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionSecond_Semester">
+   <property name="text">
+    <string>Second Semester</string>
    </property>
   </action>
  </widget>

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "histogramwindow.h"
+#include "secondwindow.h"
 
 #include <QFileDialog>
 #include <QPixmap>
@@ -27,18 +28,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::fillTable(double **& matrix, int w, int h)
-{
-    this->ui->outputTableWidget->setRowCount(w);
-    this->ui->outputTableWidget->setColumnCount(h);
-
-    for (int i = 0; i < w; i++)
-        for (int j = 0; j < h; j++)
-        {
-            this->ui->outputTableWidget->setItem(i, j, new QTableWidgetItem(QString::number(matrix[i][j])));
-        }
-}
-
 void MainWindow::setImage(QImage &image)
 {
     QPixmap imagePix = QPixmap::fromImage(image);
@@ -55,8 +44,8 @@ void MainWindow::on_ToGrayButton_clicked()
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
     double **matrix = this->imgCore.RgbToGray(image);
-    this->fillTable(matrix, image.width(), image.height());
     this->setImage(image);
+    this->setMainTable(matrix, image.width(), image.height());
 }
 
 
@@ -93,18 +82,19 @@ void MainWindow::on_actionExit_triggered()
     exit(0);
 }
 
+void MainWindow::on_actionSecondSemester_triggered()
+{
+    exit(0);
+}
+
 
 void MainWindow::on_toBinaryButton_clicked()
 {
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
     double** matrix = this->imgCore.RgbToBinary(image);
-    this->fillTable(matrix, image.width(), image.height());
 
     this->setImage(image);
-
-    drawA4Table(matrix, image.width(), image.height());
-    drawA8Table(matrix, image.width(), image.height());
 
 }
 
@@ -114,7 +104,6 @@ void MainWindow::on_toWavesButton_clicked()
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
     double** matrix = this->imgCore.RgbViaWaves(image);
-    this->fillTable(matrix, image.width(), image.height());
 
     this->setImage(image);
 
@@ -124,90 +113,6 @@ void MainWindow::on_toWavesButton_clicked()
     }
 
     delete[] matrix;
-}
-
-
-void MainWindow::drawA4Table(double **&matrix, int w, int h)
-{
-    double **result = new double*[w];
-
-    for(int i = 0; i < w; i++)
-        result[i] = new double[h];
-
-
-    for (int i = 0; i < w; i++)
-    {
-        for (int j = 0; j < h; j++)
-        {
-            double sum = 0;
-            sum += j - 1 > 0 && j - 1 < h ? matrix[i][j-1] : 0;
-            sum += j + 1 > 0 && j + 1 < h ? matrix[i][j+1] : 0;
-            sum += i - 1 > 0 && i - 1 < w ? matrix[i-1][j] : 0;
-            sum += i + 1 > 0 && i + 1 < w ? matrix[i+1][j] : 0;
-
-            result[i][j] = sum;
-        }
-    }
-
-    this->ui->a4TableWidget->setRowCount(w);
-    this->ui->a4TableWidget->setColumnCount(h);
-
-    for (int i = 0; i < w; i++)
-    {
-        for (int j = 0; j < h; j++)
-        {
-            this->ui->a4TableWidget->setItem(i, j, new QTableWidgetItem(QString::number(result[i][j])));
-        }
-
-        delete[] result[i];
-    }
-
-    delete[] result;
-}
-
-
-void MainWindow::drawA8Table(double **& matrix, int w, int h)
-{
-    double **result = new double*[w];
-
-    for(int i = 0; i < w; i++)
-        result[i] = new double[h];
-
-
-    for (int i = 0; i < w; i++)
-    {
-        for (int j = 0; j < h; j++)
-        {
-            double sum = 0;
-            sum += j - 1 > 0 && j - 1 < h ? matrix[i][j-1] : 0;
-            sum += j + 1 > 0 && j + 1 < h ? matrix[i][j+1] : 0;
-            sum += i - 1 > 0 && i - 1 < w ? matrix[i-1][j] : 0;
-            sum += i + 1 > 0 && i + 1 < w ? matrix[i+1][j] : 0;
-
-            sum += j - 1 > 0 && j - 1 && i - 1 > 0 && i - 1 < w  < h ? matrix[i-1][j-1] : 0;
-            sum += j - 1 > 0 && j - 1 < h && i + 1 > 0 && i + 1 < w ? matrix[i+1][j-1] : 0;
-
-            sum += j + 1 > 0 && j + 1 < h && i - 1 > 0 && i - 1 < w  ? matrix[i-1][j+1] : 0;
-            sum += j + 1 > 0 && j + 1 < h && i + 1 > 0 && i + 1 < w ? matrix[i+1][j+1] : 0;
-
-            result[i][j] = sum;
-        }
-    }
-
-    this->ui->a8TableWidget->setRowCount(w);
-    this->ui->a8TableWidget->setColumnCount(h);
-
-    for (int i = 0; i < w; i++)
-    {
-        for (int j = 0; j < h; j++)
-        {
-            this->ui->a8TableWidget->setItem(i, j, new QTableWidgetItem(QString::number(result[i][j])));
-        }
-        delete[] matrix[i];
-        delete[] result[i];
-    }
-    delete[] matrix;
-    delete[] result;
 }
 
 void MainWindow::on_histogramButton_clicked()
@@ -222,7 +127,6 @@ void MainWindow::on_s8Button_clicked()
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
     double **matrix = this->imgCore.S8Binarisation(image);
-    this->fillTable(matrix, image.width(), image.height());
     this->setImage(image);
 
     for (int i = 0; i < image.width(); i++)
@@ -240,8 +144,6 @@ void MainWindow::on_globalBinaruButton_clicked()
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
     double** matrix = this->imgCore.GlobalBinarisation(image, value);
-
-    this->fillTable(matrix, image.width(), image.height());
 
     this->setImage(image);
 
@@ -261,7 +163,6 @@ void MainWindow::on_redButton_clicked()
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
     double **matrix = this->imgCore.RedMatrix(image);
-    this->fillTable(matrix, image.width(), image.height());
 
     for (int i = 0; i < image.width(); i++)
     {
@@ -278,7 +179,6 @@ void MainWindow::on_greenButton_clicked()
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
     double **matrix = this->imgCore.GreenMatrix(image);
-    this->fillTable(matrix, image.width(), image.height());
 
     for (int i = 0; i < image.width(); i++)
     {
@@ -295,7 +195,6 @@ void MainWindow::on_blueButton_clicked()
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
     double **matrix = this->imgCore.BlueMatrix(image);
-    this->fillTable(matrix, image.width(), image.height());
 
     for (int i = 0; i < image.width(); i++)
     {
@@ -310,7 +209,6 @@ void MainWindow::on_minMaxButton_clicked()
     QImage image = this->ui->imageLabel->pixmap().toImage();
 
     double **matrix = this->imgCore.MinMaxGrayImage(image);
-    this->fillTable(matrix, image.width(), image.height());
 
     this->setImage(image);
 
@@ -322,36 +220,21 @@ void MainWindow::on_minMaxButton_clicked()
     delete[] matrix;
 }
 
-
-void MainWindow::on_outputTableWidget_cellChanged(int row, int column)
+void MainWindow::on_filterButton_clicked()
 {
-    //this->ui->outputTableWidget->setItem(i, j, new QTableWidgetItem(QString::number(matrix[i][j])));
-    int value = this->ui->outputTableWidget->item(row, column)->text().toInt();
     QImage image = this->ui->imageLabel->pixmap().toImage();
-    QColor color(image.pixelColor(row, column));
-    int red = color.red();
-    int blue = color.blue();
-    int green = color.green();
 
-    switch(this->lastColor){
-    case 1:
-        red = value;
-        break;
-    case 2:
-        green = value;
-        break;
-    case 3:
-        blue = value;
-        break;
-    }
-
-    image.setPixel(row,column, qRgb(red, green, blue));
+    double** matrix = this->imgCore.Filter(image);
 
     this->setImage(image);
 
+    for (int i = 0; i < image.width(); i++)
+    {
+        delete[] matrix[i];
+    }
 
+    delete[] matrix;
 }
-
 
 
 void MainWindow::on_globalSlider_sliderMoved(int position)
@@ -366,5 +249,68 @@ void MainWindow::on_actionSave_2_triggered()
     QString path = QFileDialog::getSaveFileName(this, tr("Choose folder to save"), homeDirectory);
 
     this->ui->imageLabel->pixmap().toImage().save(path);
+}
+
+
+void MainWindow::setMainTable(double** image, int width, int height)
+{
+    this->ui->mainTableWidget = new QTableWidget(this);
+    this->ui->mainTableWidget->setRowCount(height);
+    this->ui->mainTableWidget->setColumnCount(width);
+
+    for (int x = 0; x < width; x++)
+    {
+        for(int y = 0; y < height; y++)
+        {
+            auto item = new QTableWidgetItem();
+            item->setText(QString::number((int)image[x][y]));
+
+            this->ui->mainTableWidget->setItem(x, y, item);
+        }
+    }
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    QImage image = this->ui->imageLabel->pixmap().toImage();
+
+    int mask[8];
+
+    mask[0] = this->ui->mastTableWidget->item(0, 0)->text().toInt();
+    mask[1] = this->ui->mastTableWidget->item(1, 0)->text().toInt();
+    mask[2] = this->ui->mastTableWidget->item(2, 0)->text().toInt();
+
+    mask[3] = this->ui->mastTableWidget->item(0, 1)->text().toInt();
+    mask[4] = this->ui->mastTableWidget->item(1, 1)->text().toInt();
+
+    mask[5] = this->ui->mastTableWidget->item(0, 2)->text().toInt();
+    mask[6] = this->ui->mastTableWidget->item(1, 2)->text().toInt();
+    mask[7] = this->ui->mastTableWidget->item(2, 2)->text().toInt();
+
+    double** matrix = this->imgCore.Unlocking(image, mask);
+
+    this->setImage(image);
+
+    for (int i = 0; i < image.width(); i++)
+    {
+        delete[] matrix[i];
+    }
+
+    delete[] matrix;
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+
+}
+
+
+void MainWindow::on_actionSecond_Semester_triggered()
+{
+    SecondWindow *window = new SecondWindow(this);
+    window->show();
+
 }
 

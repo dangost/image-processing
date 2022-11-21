@@ -26,6 +26,7 @@ private slots:
     void on_actionSave_triggered();
 
     void on_actionExit_triggered();
+    void on_actionSecondSemester_triggered();
 
     void on_toBinaryButton_clicked();
 
@@ -45,23 +46,26 @@ private slots:
 
     void on_minMaxButton_clicked();
 
-    void on_outputTableWidget_cellChanged(int row, int column);
-
     void on_globalSlider_sliderMoved(int position);
 
     void on_actionSave_2_triggered();
 
+    void on_filterButton_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_actionSecond_Semester_triggered();
+
 private:
     Ui::MainWindow *ui;
+
+    void setMainTable(double** image, int width, int height);
 
     ImageProcessingCore imgCore;
 
     void setImage(QImage &);
-
-    void fillTable(double **& matrix, int w, int h);
-
-    void drawA4Table(double **& matrix, int w, int h);
-    void drawA8Table(double **& matrix, int w, int h);
 
     int lastColor;
 };

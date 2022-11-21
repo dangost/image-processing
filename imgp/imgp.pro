@@ -11,18 +11,23 @@ CONFIG += c++11
 SOURCES += \
     histogramwindow.cpp \
     imgprocessing.cpp \
+    lab01matrix.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    secondwindow.cpp
 
 HEADERS += \
     histogramwindow.h \
     imgprocessing.h \
-    mainwindow.h
+    lab01matrix.h \
+    mainwindow.h \
+    secondwindow.h
 
 FORMS += \
     histogramwindow.ui \
     historam.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    secondwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -32,4 +37,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     1.jpeg \
     3.jpg \
-    4.jpg
+    4.jpg \
+    icon.icns
+
+ICON += icon.icns
