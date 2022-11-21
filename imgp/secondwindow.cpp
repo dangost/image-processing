@@ -2,12 +2,14 @@
 #include "ui_secondwindow.h"
 
 #include <QFileDialog>
+#include <QByteArrayView>
 
 SecondWindow::SecondWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::SecondWindow),
     imgCore(),
-    lab01()
+    lab01(),
+    lab02()
 {
 
     ui->setupUi(this);
@@ -259,6 +261,51 @@ void SecondWindow::on_compareButton_clicked()
                                       entropy3, entropy4,
                                       contrast3, contrast4,
                                       homo3, homo4)));
+
+}
+
+
+void SecondWindow::on_image2open_clicked()
+{
+    QString homeDirectory = QString("/Users/gost/Documents");
+    QString fileName = QFileDialog::getOpenFileName(
+                this, tr("Open Image"),
+                homeDirectory,
+                tr("Image Files (*.png *.jpg *.bmp *.jpeg)")
+                );
+
+    QPixmap openedImage(fileName);
+    QImage image = openedImage.toImage();
+
+    this->set_image(this->ui->image2label_2, image);
+    image = this->ui->image2label->pixmap().toImage();
+}
+
+
+
+void SecondWindow::on_thinButton_clicked()
+{
+    QPixmap qpix = this->ui->image2label_2->pixmap();
+    QImage qimg = qpix.toImage();
+    int** baseMatrix = this->lab02.GetBaseMatrix(qimg);
+
+    int** thinnerZeros = this->lab02.ZongSune(baseMatrix, qimg.width(), qimg.height());
+
+    int** thinner = this->lab02.FromZerosToRGB(thinnerZeros, qimg.width(), qimg.height());
+
+    QPixmap thinnerPixmap(qimg.width(), qimg.height());
+
+    QImage thinnerImage = thinnerPixmap.toImage();
+
+    for (int x = 0; x < qimg.width(); x++)
+    {
+        for (int y = 0; y < qimg.height(); y++)
+        {
+            thinnerImage.setPixel(x, y, QColor(thinner[x][y], thinner[x][y], thinner[x][y]).rgb());
+        }
+    }
+
+    this->set_image(this->ui->image2label_2, thinnerImage);
 
 }
 

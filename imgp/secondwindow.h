@@ -3,6 +3,7 @@
 
 #include "imgprocessing.h"
 #include "lab01matrix.h"
+#include "lab02core.h"
 
 #include <QLabel>
 #include <QMainWindow>
@@ -34,10 +35,15 @@ private slots:
                    QLabel *energy, QLabel *entropy, QLabel *contrast, QLabel *homo);
     void on_compareButton_clicked();
 
+    void on_image2open_clicked();
+
+    void on_thinButton_clicked();
+
 private:
     Ui::SecondWindow *ui;
      ImageProcessingCore imgCore;
      Lab01Matrix lab01;
+     Lab02Core lab02;
 };
 
 #endif // SECONDWINDOW_H

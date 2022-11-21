@@ -12,6 +12,7 @@ SOURCES += \
     histogramwindow.cpp \
     imgprocessing.cpp \
     lab01matrix.cpp \
+    lab02core.cpp \
     main.cpp \
     mainwindow.cpp \
     secondwindow.cpp
@@ -20,6 +21,7 @@ HEADERS += \
     histogramwindow.h \
     imgprocessing.h \
     lab01matrix.h \
+    lab02core.h \
     mainwindow.h \
     secondwindow.h
 
@@ -41,3 +43,4 @@ DISTFILES += \
     icon.icns
 
 ICON += icon.icns
+QT_QPA_PLATFORM=wayland
