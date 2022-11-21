@@ -47,6 +47,6 @@ CMakeLists.txt.user*
 
 # QtCreator 4.8< compilation database 
 compile_commands.json
-
+*.DS_Store
 # QtCreator local machine specific files for imported projects
 *creator.user*
