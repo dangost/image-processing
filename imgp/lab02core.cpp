@@ -14,8 +14,6 @@ int** Lab02Core::ZongSune(int** image, int w, int h)
         steps ++;
         auto firstStep = this->firstStepZonge(image, w, h);
         auto secondStep = this->secondtepZonge(firstStep, w, h);
-        int q = firstStep[30][34];
-        qDebug() << q;
         for (int i = 0 ; i< h; i++)
             for(int j = 0; j < w; j++)
             {
@@ -42,9 +40,44 @@ int** Lab02Core::ZongSune(int** image, int w, int h)
     return image;
 }
 
-int** Lab02Core::CNMatrix(QPixmap image)
+int** Lab02Core::CNMatrix(int** thin, int w, int h)
 {
+    int** result = new int*[w];
+    for (int i = 0; i < h; i++)
+    {
+        result[i] = new int[h];
+        for (int j = 0; j < w; j++)
+        {
+            result[i][j] = 0;
+        }
+    }
 
+    for(int x = 0; x < w; x++)
+    {
+        for (int y = 0; y < h; y++)
+        {
+            if ((int)thin[x][y] == 0)
+                continue;
+
+            std::vector<int> vector3x3 = {
+                (int)thin[x][y-1], (int)thin[x+1][y-1],
+                (int)thin[x+1][y], (int)thin[x+1][y+1], (int)thin[x][y+1],
+                (int)thin[x-1][y+1], (int)thin[x-1][y], (int)thin[x-1][y-1], (int)thin[x][y-1]};
+
+            int cn = 0;
+            for (int q = 0; q < 8; q++)
+            {
+                if (vector3x3[q] == 0 && vector3x3[q+1] == 1)
+                {
+                    cn++;
+                }
+            }
+
+            result[x][y] = cn;
+        }
+    }
+
+    return result;
 }
 
 int Lab02Core::cn(int** matrix3x3) // b8-a8
@@ -100,7 +133,9 @@ int** Lab02Core::firstStepZonge(int** image, int w, int h)
                 result[i][j] = 0;
             }
             else
-            {result[i][j] = image[i][j];}
+            {
+                result[i][j] = image[i][j];
+            }
         }
     }
 
@@ -117,6 +152,16 @@ int** Lab02Core::firstStepZonge(int** image, int w, int h)
                 (int)image[x-1][y+1], (int)image[x-1][y], (int)image[x-1][y-1]};
 
             // First step
+
+            int A = 0;
+            for (int i = 1; i < 9; i++)
+            {
+                A += vector3x3[i];
+            }
+            if (!(A >= 2 && A <= 6))
+                continue;
+
+
             int b1 = 0;
             for (int q = 1; q < 8; q++)
             {
@@ -125,26 +170,21 @@ int** Lab02Core::firstStepZonge(int** image, int w, int h)
                     b1++;
                 }
             }
+            if (vector3x3[8] == 0 && vector3x3[1] == 1)
+                b1++;
 
-            if (!(b1 >= 2 && b1 <= 6))
+            if (!(b1 == 1))
             {
                 continue;
             }
 
-            int A = 0;
-            for (int i = 1; i < 8; i++)
-            {
-                A += vector3x3[i];
-            }
-            if (!(A > 1))
-                continue;
 
             int P1 = vector3x3[1] * vector3x3[3] * vector3x3[5];
             int P2 = vector3x3[3] * vector3x3[5] * vector3x3[7];
 
-            if (!(P1 > 0))
+            if (!(P1 == 0))
                 continue;
-            if (!(P2 > 0))
+            if (!(P2 == 0))
                 continue;
 
             result[x][y] = 0;
@@ -186,6 +226,15 @@ int** Lab02Core::secondtepZonge(int** image, int w, int h)
                 (int)image[x-1][y+1], (int)image[x-1][y], (int)image[x-1][y-1]};
 
             // First step
+
+            int A = 0;
+            for (int i = 1; i < 9; i++)
+            {
+                A += vector3x3[i];
+            }
+            if (!(A >= 2 && A <= 6))
+                continue;
+
             int b1 = 0;
             for (int q = 1; q < 8; q++)
             {
@@ -194,26 +243,20 @@ int** Lab02Core::secondtepZonge(int** image, int w, int h)
                     b1++;
                 }
             }
+            if (vector3x3[8] == 0 && vector3x3[1] == 1)
+                b1++;
 
-            if (!(b1 >= 2 && b1 <= 6))
+            if (!(b1 == 1))
             {
                 continue;
             }
-
-            int A = 0;
-            for (int i = 1; i < 8; i++)
-            {
-                A += vector3x3[i];
-            }
-            if (!(A > 1))
-                continue;
 
             int P1 = vector3x3[1] * vector3x3[3] * vector3x3[7];
             int P2 = vector3x3[1] * vector3x3[5] * vector3x3[7];
 
-            if (!(P1 > 0))
+            if (!(P1 == 0))
                 continue;
-            if (!(P2 > 0))
+            if (!(P2 == 0))
                 continue;
 
             result[x][y] = 0;

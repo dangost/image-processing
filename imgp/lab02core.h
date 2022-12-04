@@ -14,7 +14,7 @@ public:
 
     int** FromZerosToRGB(int** image, int width, int height);
 
-    int** CNMatrix(QPixmap image);
+    int** CNMatrix(int** thin, int w, int h);
 
 private:
     int cn(int** matrix3x3); // b8-a8

@@ -786,19 +786,19 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_5">
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>Thin</string>
        </attribute>
        <widget class="QLabel" name="image2label_2">
         <property name="geometry">
          <rect>
           <x>40</x>
           <y>50</y>
-          <width>201</width>
-          <height>191</height>
+          <width>50</width>
+          <height>50</height>
          </rect>
         </property>
         <property name="minimumSize">
@@ -809,8 +809,8 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>255</width>
-          <height>255</height>
+          <width>50</width>
+          <height>50</height>
          </size>
         </property>
         <property name="text">
@@ -830,13 +830,13 @@
          <string>Open</string>
         </property>
        </widget>
-       <widget class="QTableWidget" name="thinnerTable">
+       <widget class="QTableWidget" name="baseTable_2">
         <property name="geometry">
          <rect>
           <x>300</x>
           <y>10</y>
-          <width>731</width>
-          <height>491</height>
+          <width>361</width>
+          <height>581</height>
          </rect>
         </property>
        </widget>
@@ -854,11 +854,72 @@
 Look Better</string>
         </property>
        </widget>
+       <widget class="QTableWidget" name="thinnerTable">
+        <property name="geometry">
+         <rect>
+          <x>690</x>
+          <y>10</y>
+          <width>361</width>
+          <height>581</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_6">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>CN</string>
        </attribute>
+       <widget class="QTableWidget" name="cnTable">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>10</y>
+          <width>601</width>
+          <height>551</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="cnButton">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>80</y>
+          <width>80</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Caclulate CN</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_7">
+       <attribute name="title">
+        <string>Dataset</string>
+       </attribute>
+       <widget class="QTableWidget" name="datasetTable">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>10</y>
+          <width>741</width>
+          <height>551</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="scanbutton">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>100</y>
+          <width>101</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Scan</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </widget>
@@ -870,7 +931,7 @@ Look Better</string>
      <x>0</x>
      <y>0</y>
      <width>1097</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

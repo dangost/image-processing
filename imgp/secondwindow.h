@@ -4,6 +4,7 @@
 #include "imgprocessing.h"
 #include "lab01matrix.h"
 #include "lab02core.h"
+#include "letterdata.h"
 
 #include <QLabel>
 #include <QMainWindow>
@@ -39,11 +40,21 @@ private slots:
 
     void on_thinButton_clicked();
 
+    void on_cnButton_clicked();
+
+    void on_scanbutton_clicked();
+
 private:
     Ui::SecondWindow *ui;
      ImageProcessingCore imgCore;
      Lab01Matrix lab01;
      Lab02Core lab02;
+
+     void setTable(QTableWidget *table, int** matrix, int w, int h, bool);
+
+     LetterData processImage(QImage, int, int, int , std::string);
+
+     void fillDataSetTable(QList<LetterData> list);
 };
 
 #endif // SECONDWINDOW_H

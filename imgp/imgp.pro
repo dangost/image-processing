@@ -13,6 +13,7 @@ SOURCES += \
     imgprocessing.cpp \
     lab01matrix.cpp \
     lab02core.cpp \
+    letterdata.cpp \
     main.cpp \
     mainwindow.cpp \
     secondwindow.cpp
@@ -22,6 +23,7 @@ HEADERS += \
     imgprocessing.h \
     lab01matrix.h \
     lab02core.h \
+    letterdata.h \
     mainwindow.h \
     secondwindow.h
 
@@ -40,7 +42,22 @@ DISTFILES += \
     1.jpeg \
     3.jpg \
     4.jpg \
-    icon.icns
+    icon.icns \
+    letters/Е1.png \
+    letters/Е2.png \
+    letters/Е3.png \
+    letters/Е4.png \
+    letters/Е5.png \
+    letters/У1.png \
+    letters/У2.png \
+    letters/У3.png \
+    letters/У4.png \
+    letters/У5.png \
+    letters/Ц1.png \
+    letters/Ц2.png \
+    letters/Ц3.png \
+    letters/Ц4.png \
+    letters/Ц5.png
 
 ICON += icon.icns
 QT_QPA_PLATFORM=wayland

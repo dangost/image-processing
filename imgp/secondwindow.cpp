@@ -278,7 +278,42 @@ void SecondWindow::on_image2open_clicked()
     QImage image = openedImage.toImage();
 
     this->set_image(this->ui->image2label_2, image);
-    image = this->ui->image2label->pixmap().toImage();
+
+    int** baseMatrix = this->lab02.GetBaseMatrix(image);
+    int w = image.width();
+    int h = image.height();
+    this->setTable(this->ui->baseTable_2, baseMatrix, w, h, false);
+
+}
+
+void SecondWindow::setTable(QTableWidget *table, int** matrix, int width, int height, bool color = false)
+{
+    // table = new QTableWidget(this);
+    table->setRowCount(height);
+    table->setColumnCount(width);
+
+    for (int x = 0; x < width; x++)
+    {
+        for(int y = 0; y < height; y++)
+        {
+            auto item = new QTableWidgetItem();
+            item->setText(QString::number(matrix[x][y]));
+
+            if (matrix[x][y] == 2 && color)
+            {
+                item->setBackground(Qt::yellow);
+            }
+            else if(matrix[x][y] == 3 && color)
+            {
+                item->setBackground(Qt::green);
+            }
+            else if(matrix[x][y] == 1 && color)
+            {
+                item->setBackground(Qt::cyan);
+            }
+            table->setItem(y, x, item);
+        }
+    }
 }
 
 
@@ -291,12 +326,13 @@ void SecondWindow::on_thinButton_clicked()
 
     int** thinnerZeros = this->lab02.ZongSune(baseMatrix, qimg.width(), qimg.height());
 
-    int** thinner = this->lab02.FromZerosToRGB(thinnerZeros, qimg.width(), qimg.height());
-
     QPixmap thinnerPixmap(qimg.width(), qimg.height());
 
     QImage thinnerImage = thinnerPixmap.toImage();
 
+    this->setTable(this->ui->thinnerTable, thinnerZeros, thinnerImage.width(), thinnerImage.height());
+
+    int** thinner = this->lab02.FromZerosToRGB(thinnerZeros, qimg.width(), qimg.height());
     for (int x = 0; x < qimg.width(); x++)
     {
         for (int y = 0; y < qimg.height(); y++)
@@ -306,6 +342,120 @@ void SecondWindow::on_thinButton_clicked()
     }
 
     this->set_image(this->ui->image2label_2, thinnerImage);
+}
 
+
+void SecondWindow::on_cnButton_clicked()
+{
+    int width = 50;
+    int height = 50;
+    int** thin = new int*[width];
+    for (int i = 0; i < width; i++)
+    {
+        thin[i] = new int[height];
+        for(int j = 0; j < height; j++)
+        {
+            thin[i][j] = this->ui->thinnerTable->item(j, i)->text().toInt();
+        }
+    }
+
+    int** cnmatrix = this->lab02.CNMatrix(thin, width, height);
+
+    this->setTable(this->ui->cnTable, cnmatrix, width, height, true);
+}
+
+
+void SecondWindow::on_scanbutton_clicked()
+{
+    QString path = "/Users/gost/pets/image-processing/imgp/letters";
+    QDir imagesDir(path);
+
+    QList<LetterData> dataset;
+
+    int index = 0;
+    for(QString &filename : imagesDir.entryList(QDir::Files))
+    {
+        QPixmap openedImage(path + "/" + filename);
+        QImage image = openedImage.toImage();
+        filename.replace(".png", "");
+        dataset.append(this->processImage(image, 50, 50, index, filename.toStdString()));
+        index++;
+    }
+
+    this->fillDataSetTable(dataset);
+}
+
+void SecondWindow::fillDataSetTable(QList<LetterData> list)
+{
+    this->ui->datasetTable->setRowCount(list.length() + 1);
+    this->ui->datasetTable->setColumnCount(4);
+
+    // fill head
+    auto tableitem = new QTableWidgetItem();
+    tableitem->setText("Index");
+    this->ui->datasetTable->setItem(0, 0, tableitem);
+
+    tableitem = new QTableWidgetItem();
+    tableitem->setText("Knotes");
+    this->ui->datasetTable->setItem(0, 1, tableitem);
+
+    tableitem = new QTableWidgetItem();
+    tableitem->setText("Ends");
+    this->ui->datasetTable->setItem(0, 2, tableitem);
+
+    tableitem = new QTableWidgetItem();
+    tableitem->setText("Class👍");
+    this->ui->datasetTable->setItem(0, 3, tableitem);
+
+    int i = 1;
+    for (LetterData item : list)
+    {
+        tableitem = new QTableWidgetItem();
+        tableitem->setText(QString::number(item.index));
+        this->ui->datasetTable->setItem(i, 0, tableitem);
+
+        tableitem = new QTableWidgetItem();
+        tableitem->setText(QString::number(item.knotes));
+        this->ui->datasetTable->setItem(i, 1, tableitem);
+
+        tableitem = new QTableWidgetItem();
+        tableitem->setText(QString::number(item.ends));
+        this->ui->datasetTable->setItem(i, 2, tableitem);
+
+        tableitem = new QTableWidgetItem();
+        tableitem->setText(QString::fromStdString(item.klass));
+        this->ui->datasetTable->setItem(i, 3, tableitem);
+        i++;
+    }
+}
+
+
+LetterData SecondWindow::processImage(QImage image, int w, int h, int index, std::string klass👍)
+{
+    int** base = this->lab02.GetBaseMatrix(image);
+    int** thin = this->lab02.ZongSune(base, w, h);
+
+    int** cnmatrix = this->lab02.CNMatrix(thin, w, h);
+
+    int knotes = 0;
+    int ends = 0;
+
+    for (int i = 0 ; i < w; i++)
+    {
+        for (int j = 0; j < h; j++)
+        {
+            if (cnmatrix[i][j] == 3)
+            {
+                knotes++;
+            }
+            else if (cnmatrix[i][j] == 1)
+            {
+                ends++;
+            }
+        }
+    }
+
+
+    return LetterData(index, knotes, ends, klass👍);
 }
 
