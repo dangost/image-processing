@@ -55,6 +55,8 @@ private:
      LetterData processImage(QImage, int, int, int , std::string);
 
      void fillDataSetTable(QList<LetterData> list);
+
+     void recognizeLetter(LetterData letter_data);
 };
 
 #endif // SECONDWINDOW_H

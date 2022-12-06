@@ -786,7 +786,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_5">
        <attribute name="title">
@@ -910,8 +910,8 @@ Look Better</string>
        <widget class="QPushButton" name="scanbutton">
         <property name="geometry">
          <rect>
-          <x>60</x>
-          <y>100</y>
+          <x>20</x>
+          <y>10</y>
           <width>101</width>
           <height>41</height>
          </rect>
@@ -923,11 +923,23 @@ Look Better</string>
        <widget class="QWidget" name="pointsWidget" native="true">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>160</y>
-          <width>661</width>
-          <height>571</height>
+          <x>10</x>
+          <y>50</y>
+          <width>670</width>
+          <height>670</height>
          </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>500</width>
+          <height>500</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>800</width>
+          <height>800</height>
+         </size>
         </property>
        </widget>
       </widget>
@@ -941,7 +953,7 @@ Look Better</string>
      <x>0</x>
      <y>0</y>
      <width>1306</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

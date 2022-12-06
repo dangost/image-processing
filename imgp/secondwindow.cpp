@@ -1,6 +1,6 @@
 #include "secondwindow.h"
 #include "ui_secondwindow.h"
-
+#include "point.h"
 #include <QFileDialog>
 #include <QByteArrayView>
 #include <QGridLayout>
@@ -373,7 +373,7 @@ void SecondWindow::on_cnButton_clicked()
 
 void SecondWindow::on_scanbutton_clicked()
 {
-    QString path = "/home/gost/pets/image-processing/imgp/letters";
+    QString path = "/Users/gost/pets/image-processing/imgp/letters";
     QDir imagesDir(path);
 
     QList<LetterData> dataset;
@@ -420,17 +420,21 @@ void SecondWindow::fillDataSetTable(QList<LetterData> list)
 
 
     QScatterSeries *series2 = new QScatterSeries();
-    series2->setName("М");
+    series2->setName("M");
     series2->setMarkerSize(10.0);
-    series1->setMarkerShape(QScatterSeries::MarkerShapeRectangle);
+    series2->setMarkerShape(QScatterSeries::MarkerShapeRectangle);
 
     QScatterSeries *series3 = new QScatterSeries();
-    series2->setName("Щ");
-    series2->setMarkerSize(10.0);
-    series1->setMarkerShape(QScatterSeries::MarkerShapeTriangle);
+    series3->setName("Щ");
+    series3->setMarkerSize(10.0);
+    series3->setMarkerShape(QScatterSeries::MarkerShapeTriangle);
 
     series3->append(1, 1);
     int i = 1;
+
+    QList<LetterData> new_images;
+
+
     for (LetterData item : list)
     {
         if (item.klass.find("Е") != std::string::npos)
@@ -450,7 +454,8 @@ void SecondWindow::fillDataSetTable(QList<LetterData> list)
 
         else
         {
-            // recognize
+            new_images.append(item);
+            continue;
         }
 
         tableitem = new QTableWidgetItem();
@@ -491,6 +496,11 @@ void SecondWindow::fillDataSetTable(QList<LetterData> list)
 
     QGridLayout* grid = new QGridLayout(this->ui->pointsWidget);
     grid->addWidget(chartView);
+}
+
+void SecondWindow::recognizeLetter(LetterData letter_data)
+{
+
 }
 
 

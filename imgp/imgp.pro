@@ -16,8 +16,10 @@ SOURCES += \
     lab01matrix.cpp \
     lab02core.cpp \
     letterdata.cpp \
+    letterpointsdataset.cpp \
     main.cpp \
     mainwindow.cpp \
+    point.cpp \
     secondwindow.cpp
 
 HEADERS += \
@@ -26,7 +28,9 @@ HEADERS += \
     lab01matrix.h \
     lab02core.h \
     letterdata.h \
+    letterpointsdataset.h \
     mainwindow.h \
+    point.h \
     secondwindow.h
 
 FORMS += \
