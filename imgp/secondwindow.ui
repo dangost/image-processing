@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1097</width>
-    <height>744</height>
+    <width>1306</width>
+    <height>957</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,8 +22,8 @@
      <rect>
       <x>0</x>
       <y>30</y>
-      <width>1081</width>
-      <height>651</height>
+      <width>1291</width>
+      <height>871</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -781,12 +781,12 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>1061</width>
-        <height>591</height>
+        <width>1261</width>
+        <height>801</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_5">
        <attribute name="title">
@@ -874,8 +874,8 @@ Look Better</string>
          <rect>
           <x>300</x>
           <y>10</y>
-          <width>601</width>
-          <height>551</height>
+          <width>951</width>
+          <height>741</height>
          </rect>
         </property>
        </widget>
@@ -884,8 +884,8 @@ Look Better</string>
          <rect>
           <x>30</x>
           <y>80</y>
-          <width>80</width>
-          <height>61</height>
+          <width>131</width>
+          <height>51</height>
          </rect>
         </property>
         <property name="text">
@@ -900,10 +900,10 @@ Look Better</string>
        <widget class="QTableWidget" name="datasetTable">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>10</y>
-          <width>731</width>
-          <height>331</height>
+          <x>700</x>
+          <y>0</y>
+          <width>551</width>
+          <height>681</height>
          </rect>
         </property>
        </widget>
@@ -920,6 +920,16 @@ Look Better</string>
          <string>Scan</string>
         </property>
        </widget>
+       <widget class="QWidget" name="pointsWidget" native="true">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>160</y>
+          <width>661</width>
+          <height>571</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
     </widget>
@@ -930,8 +940,8 @@ Look Better</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1097</width>
-     <height>21</height>
+     <width>1306</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>

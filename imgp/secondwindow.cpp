@@ -3,6 +3,12 @@
 
 #include <QFileDialog>
 #include <QByteArrayView>
+#include <QGridLayout>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QChart>
+#include <QtCharts/QChartView>
+#include <QtCharts/QScatterSeries>
+#include <QtCharts/QValueAxis>
 
 SecondWindow::SecondWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -367,7 +373,7 @@ void SecondWindow::on_cnButton_clicked()
 
 void SecondWindow::on_scanbutton_clicked()
 {
-    QString path = "/Users/gost/pets/image-processing/imgp/letters";
+    QString path = "/home/gost/pets/image-processing/imgp/letters";
     QDir imagesDir(path);
 
     QList<LetterData> dataset;
@@ -407,11 +413,49 @@ void SecondWindow::fillDataSetTable(QList<LetterData> list)
     tableitem->setText("Class👍");
     this->ui->datasetTable->setItem(0, 3, tableitem);
 
+    QScatterSeries *series1 = new QScatterSeries();
+    series1->setName("Е");
+    series1->setMarkerSize(10.0);
+    series1->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+
+
+    QScatterSeries *series2 = new QScatterSeries();
+    series2->setName("М");
+    series2->setMarkerSize(10.0);
+    series1->setMarkerShape(QScatterSeries::MarkerShapeRectangle);
+
+    QScatterSeries *series3 = new QScatterSeries();
+    series2->setName("Щ");
+    series2->setMarkerSize(10.0);
+    series1->setMarkerShape(QScatterSeries::MarkerShapeTriangle);
+
+    series3->append(1, 1);
     int i = 1;
     for (LetterData item : list)
     {
+        if (item.klass.find("Е") != std::string::npos)
+        {
+            series1->append(item.ends-1, item.knotes);
+        }
+
+        else if (item.klass.find("М") != std::string::npos)
+        {
+            series2->append(item.ends, item.knotes);
+        }
+
+        else if (item.klass.find("Щ") != std::string::npos)
+        {
+            series3->append(item.ends, item.knotes);
+        }
+
+        else
+        {
+            // recognize
+        }
+
         tableitem = new QTableWidgetItem();
         tableitem->setText(QString::number(item.index));
+
         this->ui->datasetTable->setItem(i, 0, tableitem);
 
         tableitem = new QTableWidgetItem();
@@ -427,10 +471,30 @@ void SecondWindow::fillDataSetTable(QList<LetterData> list)
         this->ui->datasetTable->setItem(i, 3, tableitem);
         i++;
     }
+
+    QChart *chart = new QChart();
+    chart->addSeries(series1);
+    chart->addSeries(series2);
+    chart->addSeries(series3);
+
+    chart->createDefaultAxes();
+    chart->axes(Qt::Horizontal).back()->setRange(-0.5, 6);
+    chart->axes(Qt::Horizontal).back()->setTitleText("ends");
+
+    chart->axes(Qt::Vertical).back()->setRange(-0.5, 6);
+    chart->axes(Qt::Vertical).back()->setTitleText("knotes");
+
+    chart->setAnimationOptions(QChart::AllAnimations);
+    chart->setDropShadowEnabled(false);
+
+    QChartView *chartView = new QChartView(chart);
+
+    QGridLayout* grid = new QGridLayout(this->ui->pointsWidget);
+    grid->addWidget(chartView);
 }
 
 
-LetterData SecondWindow::processImage(QImage image, int w, int h, int index, std::string klass👍)
+LetterData SecondWindow::processImage(QImage image, int w, int h, int index, std::string klass)
 {
     int** base = this->lab02.GetBaseMatrix(image);
     int** thin = this->lab02.ZongSune(base, w, h);
@@ -456,6 +520,6 @@ LetterData SecondWindow::processImage(QImage image, int w, int h, int index, std
     }
 
 
-    return LetterData(index, knotes, ends, klass👍);
+    return LetterData(index, knotes, ends, klass);
 }
 

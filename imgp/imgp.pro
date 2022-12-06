@@ -1,5 +1,7 @@
 QT       += core gui
 
+QT += charts
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -46,18 +48,12 @@ DISTFILES += \
     letters/Е1.png \
     letters/Е2.png \
     letters/Е3.png \
-    letters/Е4.png \
-    letters/Е5.png \
-    letters/У1.png \
-    letters/У2.png \
-    letters/У3.png \
-    letters/У4.png \
-    letters/У5.png \
-    letters/Ц1.png \
-    letters/Ц2.png \
-    letters/Ц3.png \
-    letters/Ц4.png \
-    letters/Ц5.png
+    letters/М1.png \
+    letters/М2.png \
+    letters/М3.png \
+    letters/Щ1.png \
+    letters/Щ2.png \
+    letters/Щ3.png
 
 ICON += icon.icns
 QT_QPA_PLATFORM=wayland
