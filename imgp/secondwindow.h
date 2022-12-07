@@ -4,10 +4,15 @@
 #include "imgprocessing.h"
 #include "lab01matrix.h"
 #include "lab02core.h"
+#include "point.h"
 #include "letterdata.h"
-
+#include "letterpointsdataset.h"
+#include <QtCharts/QScatterSeries>
+#include <QtCharts/QChartView>
+#include <QGridLayout>
 #include <QLabel>
 #include <QMainWindow>
+
 
 namespace Ui {
 class SecondWindow;
@@ -44,11 +49,19 @@ private slots:
 
     void on_scanbutton_clicked();
 
+    void on_recButton_clicked();
+
+    void on_centerButton_clicked();
+
 private:
     Ui::SecondWindow *ui;
      ImageProcessingCore imgCore;
      Lab01Matrix lab01;
      Lab02Core lab02;
+
+     QScatterSeries *series1;
+     QScatterSeries *series2;
+     QScatterSeries *series3;
 
      void setTable(QTableWidget *table, int** matrix, int w, int h, bool);
 
@@ -57,6 +70,13 @@ private:
      void fillDataSetTable(QList<LetterData> list);
 
      void recognizeLetter(LetterData letter_data);
+
+     QList<LetterData> new_points;
+     LetterPointsDataset *dataset;
+
+     void drawChart(QList<QScatterSeries*>);
+     QGridLayout *gridLayout;
+     QChartView *chartView;
 };
 
 #endif // SECONDWINDOW_H

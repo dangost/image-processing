@@ -2,13 +2,15 @@
 #define POINT_H
 
 
+#include "letterdata.h"
 class Point
 {
 public:
-    Point(int x, int y);
+    Point(float x, float y);
+    Point(LetterData item);
     Point();
-    int x;
-    int y;
+    float x;
+    float y;
 };
 
 #endif // POINT_H
