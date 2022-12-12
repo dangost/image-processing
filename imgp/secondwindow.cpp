@@ -378,7 +378,7 @@ void SecondWindow::on_cnButton_clicked()
 
 void SecondWindow::on_scanbutton_clicked()
 {
-    QString path = "/home/gost/pets/image-processing/imgp/letters";
+    QString path = "/Users/gost/pets/image-processing/imgp/letters";
     QDir imagesDir(path);
 
     QList<LetterData> letters;
@@ -530,10 +530,12 @@ void SecondWindow::on_recButton_clicked()
     int i = this->dataset->E_class.count() + this->dataset->W_class.count() + this->dataset->M_class.count() + 1;
     for (LetterData item : this->new_points)
     {
-        item.index = i;
+        item.index = i+1;
         auto point = Point(item);
 
-        auto klass = this->dataset->findClass(point);
+        QString stri = QString("");
+        auto klass = this->dataset->findClass(point, stri);
+        this->ui->distLabel->setText(stri);
         item.klass = klass.toStdString();
 
         auto tableitem = new QTableWidgetItem();

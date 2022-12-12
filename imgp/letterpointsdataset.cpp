@@ -60,7 +60,7 @@ void LetterPointsDataset::init_centers()
     return;
 }
 
-QString LetterPointsDataset::findClass(Point new_point)
+QString LetterPointsDataset::findClass(Point new_point, QString &dist)
 {
     QString result;
 
@@ -75,6 +75,8 @@ QString LetterPointsDataset::findClass(Point new_point)
 
     float distance_W = std::sqrt((std::pow(std::abs(this->W_center->x - new_point.x), 2))+ std::pow(std::abs(this->W_center->y - new_point.y), 2));
     float distance_M = std::sqrt((std::pow(std::abs(this->M_center->x - new_point.x), 2))+ std::pow(std::abs(this->M_center->y - new_point.y), 2));
+
+    dist = "E " + QString::number(distance_E) + " Щ " + QString::number(distance_W) + " М " + QString::number(distance_M);
 
     // find minimal!!!!@!@#!@#123hjlk
     if (!(distance_E > distance_W))

@@ -903,7 +903,7 @@ Look Better</string>
           <x>700</x>
           <y>0</y>
           <width>551</width>
-          <height>681</height>
+          <height>391</height>
          </rect>
         </property>
        </widget>
@@ -968,6 +968,19 @@ Look Better</string>
          <string>Centers</string>
         </property>
        </widget>
+       <widget class="QLabel" name="distLabel">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>600</y>
+          <width>291</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </widget>
@@ -979,7 +992,7 @@ Look Better</string>
      <x>0</x>
      <y>0</y>
      <width>1306</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

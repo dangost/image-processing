@@ -23,7 +23,7 @@ public:
 
     void init_centers();
 
-    QString findClass(Point new_point);
+    QString findClass(Point new_point, QString &Å˛dist);
 };
 
 #endif // LETTERPOINTSDATASET_H
