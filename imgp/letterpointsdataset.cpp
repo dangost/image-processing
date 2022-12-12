@@ -57,7 +57,6 @@ void LetterPointsDataset::init_centers()
     this->W_center = new Point(
                 (float)(sum_x / count),
                 (float)(sum_y / count));
-    return;
 }
 
 QString LetterPointsDataset::findClass(Point new_point, QString &dist)

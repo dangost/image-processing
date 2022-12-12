@@ -53,6 +53,10 @@ private slots:
 
     void on_centerButton_clicked();
 
+    void on_openZondButton_clicked();
+
+    void on_zondes_push_clicked();
+
 private:
     Ui::SecondWindow *ui;
      ImageProcessingCore imgCore;
@@ -66,6 +70,7 @@ private:
      void setTable(QTableWidget *table, int** matrix, int w, int h, bool);
 
      LetterData processImage(QImage, int, int, int , std::string);
+     LetterData processImageZonde(QImage, int, int, int , std::string);
 
      void fillDataSetTable(QList<LetterData> list);
 

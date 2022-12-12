@@ -1,6 +1,7 @@
 #include "lab02core.h"
 #include <algorithm>
 #include <QDebug>
+#include <QColor>
 
 Lab02Core::Lab02Core()
 {
@@ -38,6 +39,44 @@ int** Lab02Core::ZongSune(int** image, int w, int h)
         }
     }
     return image;
+}
+
+int** Lab02Core::Zonde(QImage& image, int& first_count, int& second_count)
+{
+    const int len = 50;
+
+    int** base = this->GetBaseMatrix(image);
+
+    base = this->ZongSune(base, len, len);
+
+    for (int y = 0; y < len; y++)
+    {
+        if (base[y][y] == 1)
+        {
+            first_count++;
+        }
+        base[y][y] = 1;
+
+        if (base[y][50 - y] == 1)
+        {
+            second_count++;
+        }
+        base[y][50 - y] = 1;
+    }
+    second_count--;
+
+    int** rgb_matrix = this->FromZerosToRGB(base, len, len);
+
+    for (int x = 0; x < len; x++)
+    {
+        for (int y = 0; y < len; y++)
+        {
+            int color = rgb_matrix[x][y];
+            image.setPixelColor(x, y, QColor(color, color , color));
+        }
+    }
+
+    return base;
 }
 
 int** Lab02Core::CNMatrix(int** thin, int w, int h)
@@ -107,15 +146,17 @@ int** Lab02Core::GetBaseMatrix(QImage image)
 
 int** Lab02Core::FromZerosToRGB(int** image, int w, int h)
 {
+    int** result = new int*[w];
     for (int i = 0; i < w; i++)
     {
+        result[i] = new int[h];
         for (int j = 0; j < h; j++)
         {
-            image[i][j] = image[i][j] == 0 ? 255 : 0;
+            result[i][j] = image[i][j] == 0 ? 255 : 0;
         }
     }
 
-    return image;
+    return result;
 }
 
 

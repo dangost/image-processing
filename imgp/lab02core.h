@@ -16,6 +16,8 @@ public:
 
     int** CNMatrix(int** thin, int w, int h);
 
+    int** Zonde(QImage& image, int& fist_count, int& second_count);
+
 private:
     int cn(int** matrix3x3); // b8-a8
     int** firstStepZonge(int** image, int width, int height);

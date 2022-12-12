@@ -505,10 +505,10 @@ void SecondWindow::drawChart(QList<QScatterSeries*> series)
     }
 
     chart->createDefaultAxes();
-    chart->axes(Qt::Horizontal).back()->setRange(-0.5, 6);
+    chart->axes(Qt::Horizontal).back()->setRange(-0.5, 7);
     chart->axes(Qt::Horizontal).back()->setTitleText("ends");
 
-    chart->axes(Qt::Vertical).back()->setRange(-0.5, 6);
+    chart->axes(Qt::Vertical).back()->setRange(-0.5, 7);
     chart->axes(Qt::Vertical).back()->setTitleText("knotes");
 
     chart->setAnimationOptions(QChart::AllAnimations);
@@ -646,6 +646,64 @@ LetterData SecondWindow::processImage(QImage image, int w, int h, int index, std
     return LetterData(index, knotes, ends, klass);
 }
 
+LetterData SecondWindow::processImageZonde(QImage image, int w, int h, int index, std::string klass)
+{
+
+    int first = 0;
+    int second = 0;
+    this->lab02.Zonde(image, first, second);
 
 
+    return LetterData(index, first, second, klass);
+}
+
+
+
+
+
+void SecondWindow::on_openZondButton_clicked()
+{
+    QString homeDirectory = QString("${PWD}");
+    QString fileName = QFileDialog::getOpenFileName(
+                this, tr("Open Image"),
+                homeDirectory,
+                tr("Image Files (*.png *.jpg *.bmp *.jpeg)")
+                );
+
+    QPixmap openedImage(fileName);
+    QImage image = openedImage.toImage();
+
+    int first = 0;
+    int second = 0;
+    int** zondes = this->lab02.Zonde(image, first, second);
+    this->set_image(this->ui->image_zond_label, image);
+    this->ui->zondLabelOutput->setText(QString("First: ") + QString::number(first) + QString(" Second: ") + QString::number(second));
+
+
+    this->setTable(this->ui->zondesTable, zondes, 50, 50, false);
+
+}
+
+
+void SecondWindow::on_zondes_push_clicked()
+{
+    QString path = "/home/gost/pets/image-processing/imgp/letters";
+    QDir imagesDir(path);
+
+    QList<LetterData> letters;
+    this->dataset = new LetterPointsDataset();
+    this->new_points.clear();
+
+    int index = 0;
+    for(QString &filename : imagesDir.entryList(QDir::Files))
+    {
+        QPixmap openedImage(path + "/" + filename);
+        QImage image = openedImage.toImage();
+        filename.replace(".png", "");
+        letters.append(this->processImageZonde(image, 50, 50, index, filename.toStdString()));
+        index++;
+    }
+
+    this->fillDataSetTable(letters);
+}
 
