@@ -1,9 +1,12 @@
 #include "secondwindow.h"
 #include "ui_secondwindow.h"
 #include "point.h"
+#include "grouppointset.h"
 #include <QFileDialog>
 #include <QByteArrayView>
 #include <QGridLayout>
+#include <QRandomGenerator>
+#include <QLineSeries>
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
 
@@ -17,13 +20,6 @@ SecondWindow::SecondWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-
-    // QChart *chart = new QChart();
-
-    // this->gridLayout = new QGridLayout(this->ui->pointsWidget);
-
-    // this->chartView = new QChartView(chart);
-    //this->gridLayout->addWidget(this->chartView);
 
 }
 
@@ -516,13 +512,11 @@ void SecondWindow::drawChart(QList<QScatterSeries*> series)
 
     this->gridLayout = new QGridLayout();
 
-
-
     this->chartView = new QChartView(chart);
     this->gridLayout->addWidget(this->chartView);
     this->ui->pointsWidget->setLayout(this->gridLayout);
-
 }
+
 
 
 void SecondWindow::on_recButton_clicked()
@@ -681,7 +675,6 @@ void SecondWindow::on_openZondButton_clicked()
 
 
     this->setTable(this->ui->zondesTable, zondes, 50, 50, false);
-
 }
 
 
@@ -707,3 +700,150 @@ void SecondWindow::on_zondes_push_clicked()
     this->fillDataSetTable(letters);
 }
 
+
+void SecondWindow::on_lab5_process_button_clicked()
+{
+    this->ui->coordsTable->clear();
+    this->ui->distTable->clear();
+
+    this->groupDataset = new GroupDataset();
+
+    auto rand = QRandomGenerator();
+    rand.seed(12);
+
+    int count = 15;
+
+
+
+    this->ui->coordsTable->setRowCount(count + 1);
+    this->ui->coordsTable->setColumnCount(3);
+
+    this->ui->coordsTable->setItem(0, 0, new QTableWidgetItem("Id"));
+    this->ui->coordsTable->setItem(0, 1, new QTableWidgetItem("X"));
+    this->ui->coordsTable->setItem(0, 2, new QTableWidgetItem("Y"));
+
+    for (int i = 0; i < count; i++)
+    {
+
+        Point point = Point(i, rand.bounded(0, 20), rand.bounded(0, 20));
+
+        groupDataset->addPoint(point);
+
+        auto idItem = new QTableWidgetItem();
+        idItem->setText(QString::number(i));
+
+        auto xItem = new QTableWidgetItem();
+        xItem->setText(QString::number(point.x));
+
+        auto yItem = new QTableWidgetItem();
+        yItem->setText(QString::number(point.y));
+
+        this->ui->coordsTable->setItem(i+1, 0, idItem);
+        this->ui->coordsTable->setItem(i+1, 1, xItem);
+        this->ui->coordsTable->setItem(i+1, 2, yItem);
+    }
+
+    ;
+
+    float** distances = this->groupDataset->findDistances(count);
+
+    this->ui->distTable->setRowCount(count);
+    this->ui->distTable->setColumnCount(count);
+
+    for (int x = 0; x < count; x++)
+    {
+        for (int y = 0; y < count; y++)
+        {
+            float dist = distances[x][y];
+
+            auto item = new QTableWidgetItem();
+            item->setText(QString::number(dist));
+
+            this->ui->distTable->setItem(y, x, item);
+        }
+    }
+
+    this->drawGroupChart(this->groupDataset);
+}
+
+void SecondWindow::drawGroupChart(GroupDataset *dataset)
+{
+    dataset->pointsToSet();
+    QList<QString> report;
+
+    QList<QLineSeries*> lines;
+
+
+    int count = 15;
+    for (int q = 0; q < 15; q++)
+    {
+        float min_distance = 1000.0f;
+        int min_first_id = 0;
+        int min_second_id = 0;
+
+        report.append(dataset->ouput());
+        if (count == 3)
+        {
+            break;
+        }
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = 0; j < count; j++)
+            {
+                float current = dataset->m_distances[i][j];
+                if (min_distance > current && i != j)
+                {
+                   min_distance = current;
+                   min_first_id = i;
+                   min_second_id = j;
+                }
+            }
+        }
+
+        Point a, b;
+
+        dataset->unitSets(min_first_id, min_second_id, a, b);
+        dataset->findSetsDistances();
+        count = dataset->sets.length();
+
+        QLineSeries *line = new QLineSeries();
+        line->setColor(Qt::darkMagenta);
+        line->append(a.x, a.y);
+        line->append(b.x, b.y);
+        lines.append(line);
+
+    }
+
+    for (QString str : report)
+    {
+        this->ui->listWidget->addItem(str);
+    }
+
+
+    this->ui->lab5pointsChart = new QWidget(this->ui->tab_9);
+    this->ui->lab5pointsChart->setObjectName(QString::fromUtf8("lab5pointsChart"));
+    this->ui->lab5pointsChart->setGeometry(QRect(40, 20, 691, 691));
+    this->ui->lab5pointsChart->show();
+
+    QChart *chart = new QChart();
+
+    for (QLineSeries* line : lines)
+    {
+        chart->addSeries(line);
+    }
+
+    chart->createDefaultAxes();
+    chart->axes(Qt::Horizontal).back()->setRange(-0.5, 21);
+
+    chart->axes(Qt::Vertical).back()->setRange(-0.5, 21);
+
+    chart->setAnimationOptions(QChart::AllAnimations);
+    chart->setDropShadowEnabled(false);
+    chart->legend()->setVisible(false);
+    QGridLayout * gridLayout = new QGridLayout();
+
+    QChartView* chartView = new QChartView(chart);
+    gridLayout->addWidget(chartView);
+    this->ui->lab5pointsChart->setLayout(gridLayout);
+
+}

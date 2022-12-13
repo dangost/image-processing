@@ -6,6 +6,11 @@ Point::Point(float x, float y)
     this->y = y;
 }
 
+Point::Point(int id, float x, float y) : Point(x, y)
+{
+    this->id = id;
+}
+
 Point::Point() {}
 
 Point::Point(LetterData item)

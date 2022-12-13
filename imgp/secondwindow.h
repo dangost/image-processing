@@ -1,6 +1,7 @@
 #ifndef SECONDWINDOW_H
 #define SECONDWINDOW_H
 
+#include "groupdataset.h"
 #include "imgprocessing.h"
 #include "lab01matrix.h"
 #include "lab02core.h"
@@ -57,6 +58,8 @@ private slots:
 
     void on_zondes_push_clicked();
 
+    void on_lab5_process_button_clicked();
+
 private:
     Ui::SecondWindow *ui;
      ImageProcessingCore imgCore;
@@ -80,8 +83,11 @@ private:
      LetterPointsDataset *dataset;
 
      void drawChart(QList<QScatterSeries*>);
+     void drawGroupChart(GroupDataset*);
      QGridLayout *gridLayout;
      QChartView *chartView;
+
+     GroupDataset *groupDataset;
 };
 
 #endif // SECONDWINDOW_H

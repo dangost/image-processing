@@ -11,6 +11,8 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    groupdataset.cpp \
+    grouppointset.cpp \
     histogramwindow.cpp \
     imgprocessing.cpp \
     lab01matrix.cpp \
@@ -23,6 +25,8 @@ SOURCES += \
     secondwindow.cpp
 
 HEADERS += \
+    groupdataset.h \
+    grouppointset.h \
     histogramwindow.h \
     imgprocessing.h \
     lab01matrix.h \
